@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - BayanihanLive</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1 id="profile-heading">My Profile</h1>
+            <p>Here you can edit your information and view your donation history and receipts. (Per Objective #2)</p>
+
+            <div class="card" style="margin-bottom: 30px;">
+                <h2>My Information</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-username">Username</label>
+                        <input type="text" id="profile-username" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">Email</label>
+                        <input type="email" id="profile-email" readonly>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #777;">(Profile editing is not yet implemented)</p>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>My Donation History</h2>
+                <p>View your past donations and get digital receipts.</p>
+                <table class="history-table" id="donation-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Foundation</th>
+                            <th>Receipt ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Receipt Modal -->
+    <section id="receiptModal" class="modal-overlay hidden">
+        <div class="modal-box receipt-modal-content">
+            <h3>Digital Receipt</h3>
+            <div id="receipt-content">
+                <!-- Receipt details will be injected here -->
+            </div>
+            <div class="modal-buttons">
+                <button id="closeReceiptBtn" class="btn">Close</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+    <!-- Page-specific script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = Session.getCurrentUser();
+
+            // Redirect to login if not authenticated
+            if (!currentUser) {
+                window.location.href = 'Bayanihan_Login.html'; // UPDATED LINK
+                return;
+            }
+
+            // Populate profile info
+            document.getElementById('profile-heading').textContent = `My Profile: ${currentUser.username}`;
+            document.getElementById('profile-username').value = currentUser.username;
+            document.getElementById('profile-email').value = currentUser.email;
+
+            // Populate donation history
+            const tableBody = document.getElementById('donation-history-table').querySelector('tbody');
+            if (currentUser.donations.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5">You have not made any donations yet.</td></tr>';
+            } else {
+                currentUser.donations.forEach(don => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${don.date}</td>
+                        <td>₱${don.amount.toFixed(2)}</td>
+                        <td>${don.foundation}</td>
+                        <td>${don.id}</td>
+                        <td><button class="btn btn-small view-receipt-btn" data-id="${don.id}">View Receipt</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // --- Receipt Modal Logic ---
+            const receiptModal = document.getElementById('receiptModal');
+            const receiptContent = document.getElementById('receipt-content');
+            const closeReceiptBtn = document.getElementById('closeReceiptBtn');
+
+            tableBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('view-receipt-btn')) {
+                    const donationId = e.target.getAttribute('data-id');
+                    const donation = currentUser.donations.find(d => d.id === donationId);
+                    
+                    if (donation) {
+                        receiptContent.innerHTML = `
+                            <div class="receipt-item">
+                                <span>Receipt ID:</span>
+                                <strong>${donation.id}</strong>
+                            </div>
+                            <div class="receipt-item">
+                                <span>Date:</span>
+                                <strong>${donation.date}</strong>
+                            </div>
+                            <div class="receipt-item">
+                                <span>To:</span>
+                                <strong>${donation.foundation}</strong>
+                            </div>
+                            <div class="receipt-item">
+                                <span>From:</span>
+                                <strong>${currentUser.username} (${currentUser.email})</strong>
+                            </div>
+                            <div class="receipt-total">
+                                <div class="receipt-item">
+                                    <span>Amount:</span>
+                                    <strong>₱${donation.amount.toFixed(2)}</strong>
+                                </div>
+                            </div>
+                        `;
+                        receiptModal.classList.remove('hidden');
+                    }
+                }
+            });
+
+            closeReceiptBtn.addEventListener('click', () => {
+                receiptModal.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

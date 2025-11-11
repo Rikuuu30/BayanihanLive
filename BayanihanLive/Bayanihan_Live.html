@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Updates - BayanihanLive</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1 id="live-page-title">Live Calamity Updates</h1>
+            <p>Watch live feeds from news partners and affected areas. (Per Scope Item #3)</p>
+
+            <div class="live-wrapper">
+                <!-- Featured Video -->
+                <div class="featured-video-player">
+                    <div class="live-badge"><i class="fas fa-circle"></i> LIVE</div>
+                    <img src="https://placehold.co/1200x500/000/FFF?text=Live+News+Feed+Placeholder" alt="Live news feed">
+                </div>
+
+                <h2 style="margin-top: 20px;">All Feeds</h2>
+                <div class="card-grid">
+                    <!-- Video Card 1 -->
+                    <div class="card video-card">
+                        <div class="video-tag live"><i class="fas fa-circle"></i> LIVE</div>
+                        <img src="https://placehold.co/600x300/333/FFF?text=Masbate+Update" alt="Masbate Update" class="video-card-image">
+                        <div class="card-content">
+                            <h3>On-the-Ground: Masbate Flooding</h3>
+                            <small>Source: News Partner 1</small>
+                        </div>
+                    </div>
+                    <!-- Video Card 2 -->
+                    <div class="card video-card">
+                        <div class="video-tag">VOD</div>
+                        <img src="https://placehold.co/600x300/444/FFF?text=Samar+Recovery" alt="Samar Recovery" class="video-card-image">
+                        <div class="card-content">
+                            <h3>Recovery: Samar Rebuilding Efforts</h3>
+                            <small>Source: GMA Kapuso Foundation</small>
+                        </div>
+                    </div>
+                    <!-- Video Card 3 -->
+                    <div class="card video-card">
+                        <div class="video-tag">VOD</div>
+                        <img src="https://placehold.co/600x300/555/FFF?text=Palawan+Landslide" alt="Palawan Landslide" class="video-card-image">
+                        <div class="card-content">
+                            <h3>Aftermath: Palawan Landslide</h3>
+                            <small>Source: Philippine Red Cross</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+    <!-- Page-specific script to check for location -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const location = urlParams.get('location');
+            if (location) {
+                const title = document.getElementById('live-page-title');
+                title.textContent = `Live Updates for ${location}`;
+            }
+        });
+    </script>
+</body>
+</html>

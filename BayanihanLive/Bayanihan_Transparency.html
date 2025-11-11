@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparency Hub - BayanihanLive</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1>Transparency Hub</h1>
+            <p>We believe in 100% transparency. See where every donation goes and read public reports from our partner foundations. (Per Objective #2)</p>
+
+            <div class="summary-card">
+                <h3>Total Funds Raised (All Time)</h3>
+                <h1 style="color: var(--secondary-color);">₱1,750.00</h1>
+                <p>This is the total amount collected from all donors through the BayanihanLive platform.</p>
+            </div>
+
+            <div class="card" style="margin-bottom: 30px;">
+                <h2>Fund Allocation</h2>
+                <p>This chart shows the general breakdown of how funds are allocated across different sectors.</p>
+                <canvas id="allocationChart" height="120"></canvas>
+            </div>
+
+            <div class="card">
+                <h2>Foundation Public Reports</h2>
+                <p>View the latest transparency reports and updates submitted by our verified partners.</p>
+                <div class="report-list">
+                    <div class="report-list-item">
+                        <i class="fas fa-file-alt report-icon"></i>
+                        <div>
+                            <strong>Philippine Red Cross: Masbate Relief Q3 Report</strong>
+                            <p>Summary of funds deployed for food, water, and medical supplies...</p>
+                        </div>
+                        <a href="#" class="btn btn-small" style="margin-left: auto;">View Report</a>
+                    </div>
+                    <div class="report-list-item">
+                        <i class="fas fa-file-alt report-icon"></i>
+                        <div>
+                            <strong>GMA Kapuso Foundation: Samar Rebuilding Project Update</strong>
+                            <p>Update on the construction of new shelters and distribution of materials...</p>
+                        </div>
+                        <a href="#" class="btn btn-small" style="margin-left: auto;">View Report</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+    <!-- Page-specific script for chart -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('allocationChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Food & Water', 'Medical Supplies', 'Shelter Materials', 'Logistics', 'Volunteer Support'],
+                    datasets: [{
+                        label: 'Fund Allocation',
+                        data: [40, 20, 25, 10, 5],
+                        backgroundColor: [
+                            '#112b3c', // primary
+                            '#F66B0E', // secondary
+                            '#205375', // accent
+                            '#6c757d', // gray
+                            '#f4f7f6'  // light gray
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
