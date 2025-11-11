@@ -49,37 +49,76 @@
     <main>
         <div class="container">
             <h1>Transparency Hub</h1>
-            <p>We believe in 100% transparency. See where every donation goes and read public reports from our partner foundations. (Per Objective #2)</p>
+            <p style="font-size: 1.1rem; color: #555;">We believe in 100% transparency. See where every donation goes and read public reports from our partner foundations. (Per Objective #2)</p>
 
-            <div class="summary-card">
-                <h3>Total Funds Raised (All Time)</h3>
-                <h1 style="color: var(--secondary-color);">₱1,750.00</h1>
-                <p>This is the total amount collected from all donors through the BayanihanLive platform.</p>
+            <!-- New Layout Wrapper -->
+            <div class="transparency-layout">
+                
+                <!-- Block 1: Total Funds (styled to be prominent) -->
+                <div class="card summary-card-large">
+                    <h3>Total Funds Raised</h3>
+                    <p class="total-amount" id="total-funds-display">₱0.00</p>
+                    <p>This is the total amount collected from all donors through the BayanihanLive platform as of today. This money is in the process of being distributed to our partner foundations.</p>
+                </div>
+
+                <!-- Block 2: Fund Allocation Chart -->
+                <div class="card">
+                    <h2>Fund Allocation Breakdown</h2>
+                    <p>This chart shows the general breakdown of how all collected funds are earmarked for different sectors based on immediate needs.</p>
+                    <div class="chart-container">
+                        <canvas id="allocationChart"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <div class="card" style="margin-bottom: 30px;">
-                <h2>Fund Allocation</h2>
-                <p>This chart shows the general breakdown of how funds are allocated across different sectors.</p>
-                <canvas id="allocationChart" height="120"></canvas>
+            <!-- Block 3: Recent Transactions (New Detail) -->
+            <div class="card" style="margin-top: 30px;">
+                <h2>Recent Donations Ledger</h2>
+                <p>For full transparency, here is a live feed of the most recent donations received (donor information is anonymized for privacy).</p>
+                <table class="history-table" id="recent-donations-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Foundation</th>
+                            <th>Receipt ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added by JS -->
+                    </tbody>
+                </table>
             </div>
 
-            <div class="card">
+            <!-- Block 4: Foundation Reports (More details) -->
+            <div class="card" style="margin-top: 30px;">
                 <h2>Foundation Public Reports</h2>
-                <p>View the latest transparency reports and updates submitted by our verified partners.</p>
+                <p>View the latest transparency reports and updates submitted by our verified partners. These reports detail how funds are being used on the ground.</p>
                 <div class="report-list">
+                    <!-- Report 1 -->
                     <div class="report-list-item">
                         <i class="fas fa-file-alt report-icon"></i>
                         <div>
                             <strong>Philippine Red Cross: Masbate Relief Q3 Report</strong>
-                            <p>Summary of funds deployed for food, water, and medical supplies...</p>
+                            <p>Summary of funds deployed for food, water, and medical supplies in Masbate.</p>
                         </div>
                         <a href="#" class="btn btn-small" style="margin-left: auto;">View Report</a>
                     </div>
+                    <!-- Report 2 -->
                     <div class="report-list-item">
                         <i class="fas fa-file-alt report-icon"></i>
                         <div>
                             <strong>GMA Kapuso Foundation: Samar Rebuilding Project Update</strong>
-                            <p>Update on the construction of new shelters and distribution of materials...</p>
+                            <p>Update on the construction of new shelters and distribution of building materials in Samar.</p>
+                        </div>
+                        <a href="#" class="btn btn-small" style="margin-left: auto;">View Report</a>
+                    </div>
+                    <!-- Report 3 (New) -->
+                    <div class="report-list-item">
+                        <i class="fas fa-file-alt report-icon"></i>
+                        <div>
+                            <strong>ABS-CBN Foundation: Palawan Emergency Response</strong>
+                            <p>Financial breakdown of initial emergency response for landslide victims in Palawan.</p>
                         </div>
                         <a href="#" class="btn btn-small" style="margin-left: auto;">View Report</a>
                     </div>
@@ -96,9 +135,10 @@
     <!-- Scripts -->
     <!-- Main global script -->
     <script src="Bayanihan_App.js"></script>
-    <!-- Page-specific script for chart -->
+    <!-- Page-specific script for chart and new ledger -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Chart.js Logic ---
             const ctx = document.getElementById('allocationChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
@@ -112,7 +152,7 @@
                             '#F66B0E', // secondary
                             '#205375', // accent
                             '#6c757d', // gray
-                            '#f4f7f6'  // light gray
+                            '#A0BACC'  // UPDATED: light blue/gray
                         ],
                         borderColor: '#fff',
                         borderWidth: 2
@@ -120,6 +160,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false, // Allows chart to fit container
                     plugins: {
                         legend: {
                             position: 'right',
@@ -127,6 +168,35 @@
                     }
                 }
             });
+
+            // --- Data Population Logic ---
+            const allDonations = DB.get('donations') || [];
+            
+            // 1. Populate Total Funds
+            const totalFundsDisplay = document.getElementById('total-funds-display');
+            const totalAmount = allDonations.reduce((sum, don) => sum + don.amount, 0);
+            totalFundsDisplay.textContent = `₱${totalAmount.toFixed(2)}`;
+
+            // 2. Populate Recent Donations Ledger
+            const tableBody = document.getElementById('recent-donations-table').querySelector('tbody');
+            tableBody.innerHTML = ''; // Clear existing
+            
+            if (allDonations.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4">No donations have been made yet.</td></tr>';
+            } else {
+                // Show most recent 5
+                const recentDonations = allDonations.slice(-5).reverse();
+                recentDonations.forEach(don => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${don.date}</td>
+                        <td>₱${don.amount.toFixed(2)}</td>
+                        <td>${don.foundation}</td>
+                        <td>${don.id}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
         });
     </script>
 </body>
