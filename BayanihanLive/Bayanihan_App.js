@@ -10,7 +10,8 @@
  * - Session Management
  * - Data Models
  * - Dynamic content rendering
- * - NEW: Notification System
+ * - Notification System
+ * - NEW: Mobile Navigation
  */
 
 // --- CORE DATA MANAGEMENT ---
@@ -91,7 +92,7 @@ const Session = {
         if (user) {
             console.log('Login successful:', user.username);
             DB.set('currentUser', user);
-            window.location.href = 'Bayanihan_Dashboard.html'; // <-- FIXED: Updated link
+            window.location.href = 'Bayanihan_Dashboard.html';
             return { success: true, user: user };
         } else {
             console.warn('Login failed: Invalid credentials');
@@ -118,7 +119,7 @@ const Session = {
         DB.set('users', users);
         DB.set('currentUser', newUser);
         console.log('Signup successful:', newUser.username);
-        window.location.href = 'Bayanihan_Dashboard.html'; // <-- FIXED: Updated link
+        window.location.href = 'Bayanihan_Dashboard.html';
         return { success: true, user: newUser };
     },
 
@@ -126,7 +127,7 @@ const Session = {
         if (e) e.preventDefault();
         DB.remove('currentUser');
         console.log('You have been logged out.');
-        window.location.href = 'Bayanihan_Login.html'; // <-- FIXED: Updated link
+        window.location.href = 'Bayanihan_Login.html';
     },
 
     getCurrentUser: () => {
@@ -135,10 +136,30 @@ const Session = {
 
     init: () => {
         const currentUser = Session.getCurrentUser();
+        const mainNav = document.querySelector('.main-nav');
         const mainNavList = document.querySelector('.main-nav ul');
 
-        if (mainNavList) {
-            // Clear existing auth links
+        if (mainNav && mainNavList) {
+            // --- 1. Add Mobile Hamburger Button ---
+            const hamburgerBtn = document.createElement('button');
+            hamburgerBtn.id = 'hamburger-menu';
+            hamburgerBtn.className = 'hamburger-menu';
+            hamburgerBtn.innerHTML = `
+                <span classclass="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            `;
+            // Add hamburger button to the nav container
+            mainNav.prepend(hamburgerBtn);
+
+            // Add click event to toggle the menu
+            hamburgerBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+            });
+
+
+            // --- 2. Handle Auth Links (Your existing logic) ---
+            // Clear any existing dynamic links
             let lastItem = mainNavList.querySelector('li:last-of-type');
             while(lastItem && (lastItem.innerText.includes('Login') || lastItem.innerText.includes('Profile') || lastItem.innerText.includes('Logout'))) {
                 lastItem.remove();
@@ -148,7 +169,7 @@ const Session = {
             if (currentUser) {
                 // User is LOGGED IN
                 const profileLi = document.createElement('li');
-                profileLi.innerHTML = `<a href="Bayanihan_Profile.html">${currentUser.username} (Profile)</a>`; // <-- FIXED: Updated link
+                profileLi.innerHTML = `<a href="Bayanihan_Profile.html">${currentUser.username} (Profile)</a>`;
                 mainNavList.appendChild(profileLi);
 
                 const logoutLi = document.createElement('li');
@@ -160,14 +181,14 @@ const Session = {
             } else {
                 // User is LOGGED OUT
                 const loginLi = document.createElement('li');
-                loginLi.innerHTML = `<a href="Bayanihan_Login.html">Login</a>`; // <-- FIXED: Updated link
+                loginLi.innerHTML = `<a href="Bayanihan_Login.html">Login</a>`;
                 mainNavList.appendChild(loginLi);
             }
         }
     },
 };
 
-// --- NEW: NOTIFICATION SYSTEM ---
+// --- NOTIFICATION SYSTEM ---
 const Notifications = {
     init: () => {
         const bell = document.getElementById('notificationBell');
@@ -221,7 +242,7 @@ const Notifications = {
 
         // Hide panel when clicking outside
         document.addEventListener('click', (e) => {
-            if (!panel.contains(e.target) && e.target !== bell) {
+            if (!panel.contains(e.target) && !bell.contains(e.target)) {
                 panel.classList.remove('show');
             }
         });
@@ -241,4 +262,3 @@ document.addEventListener('DOMContentLoaded', () => {
     Session.init();
     Notifications.init(); // Initialize the notification system
 });
-
