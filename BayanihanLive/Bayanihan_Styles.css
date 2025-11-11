@@ -42,6 +42,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -145,6 +147,39 @@ a:focus {
   outline: 2px solid var(--secondary-color);
   border-radius: 2px;
 }
+
+/* ==========================================================================
+   NEW: Hamburger Menu (Mobile Navigation)
+   ========================================================================== */
+.hamburger-menu {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 10px; /* Space from nav links if they were visible */
+}
+.hamburger-menu .hamburger-bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-color-light);
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Active state for hamburger */
+.main-nav.active .hamburger-menu .hamburger-bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.main-nav.active .hamburger-menu .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+.main-nav.active .hamburger-menu .hamburger-bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 
 /* ==========================================================================
    NEW: Notification System Styles
@@ -330,6 +365,13 @@ main .container {
 /* ==========================================================================
    PAGE-SPECIFIC STYLES: Login & Signup
    ========================================================================== */
+
+/* New body style for auth pages */
+.auth-body {
+  /* This will be covered by the wrapper, but good fallback */
+  background-color: var(--primary-color);
+}
+
 .auth-page-wrapper {
   flex-grow: 1;
   position: relative;
@@ -338,10 +380,13 @@ main .container {
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  background-image: url('https://placehold.co/1200x800/112b3c/f4f7f6?text=BayanihanLive');
+  /* UPDATED: New background image */
+  background-image: url('Typhoon_BG.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  min-height: 100vh; /* Ensure it covers the full viewport height */
 }
+/* ADDED: Dark overlay for readability */
 .auth-page-wrapper::before {
   content: '';
   position: absolute;
@@ -349,9 +394,25 @@ main .container {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(17, 43, 60, 0.7);
+  background: rgba(17, 43, 60, 0.7); /* 70% dark blue overlay */
   z-index: 1;
 }
+
+/* New Logo Styles for Auth Pages */
+.auth-logo-link {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.auth-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--card-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #fff; /* White background for the logo */
+}
+
 .auth-form-container {
   max-width: 500px;
   width: 100%;
@@ -360,7 +421,7 @@ main .container {
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 2;
+  z-index: 2; /* Sits on top of the overlay */
 }
 .auth-form-container h2 {
   text-align: center;
@@ -422,6 +483,8 @@ main .container {
   cursor: pointer;
 }
 .social-btn:hover { background-color: #f7f7f7; }
+
+/* Removed .simple-footer */
 
 /* ==========================================================================
    PAGE-SPECIFIC STYLES: Dashboard
@@ -799,7 +862,7 @@ main .container {
   background-color: #000;
   border-radius: 8px;
   overflow: hidden;
-  height: 500px;
+  height: 500px; /* Will be adjusted by media query */
 }
 .live-badge {
   position: absolute;
@@ -863,15 +926,25 @@ main .container {
 /* ==========================================================================
    PAGE-SPECIFIC STYLES: Profile Page (REFINED)
    ========================================================================== */
+
+/* UPDATED: Container for table to allow horizontal scroll */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  margin-top: 20px;
+}
+
 .history-table {
   width: 100%;
+  min-width: 600px; /* Force scroll on small screens */
   border-collapse: collapse;
-  margin-top: 20px;
 }
 .history-table th, .history-table td {
   border: 1px solid var(--border-color);
   padding: 12px;
   text-align: left;
+  white-space: nowrap; /* Keep table content on one line */
 }
 .history-table th {
   background-color: var(--bg-color);
@@ -910,6 +983,47 @@ main .container {
 /* ==========================================================================
    PAGE-SPECIFIC STYLES: Transparency Page (REFINED)
    ========================================================================== */
+
+/* New Layout Grid */
+.transparency-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+  align-items: flex-start;
+}
+
+.summary-card-large {
+  background-color: var(--primary-color);
+  color: var(--text-color-light);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.summary-card-large h3 {
+  color: var(--text-color-light);
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 10px;
+}
+.summary-card-large p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+.total-amount {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 15px 0;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px; /* Give chart a defined height to scale properly */
+  margin-top: 20px;
+}
+
+/* Legacy rule, can be removed or kept for other pages */
 .summary-card {
   background-color: #fdfdfd;
   border: 1px solid var(--border-color);
@@ -956,42 +1070,141 @@ main .container {
     flex-direction: column;
     padding: 20px;
   }
+
+  /* New rule for transparency layout */
+  .transparency-layout {
+    grid-template-columns: 1fr; /* Stack on smaller screens */
+  }
+
+  /* Reduce hero height */
+  .hero-section {
+    height: 200px;
+  }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  .featured-video-player {
+    height: 300px; /* Smaller height for video on tablets */
+  }
 }
+
 @media (max-width: 768px) {
   .main-header {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
+    flex-direction: row; /* Keep logo and nav items side-by-side */
+    justify-content: space-between;
+    height: 70px; /* Restore fixed height */
+    padding: 10px 20px; /* Adjust padding */
   }
+
   .main-nav {
-    flex-direction: column;
+    flex-direction: row; /* Keep notification bell and hamburger side-by-side */
     align-items: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
+    gap: 15px; /* Reduce gap */
+    width: auto; /* Don't take full width */
+    margin-top: 0; /* Remove top margin */
   }
+
+  /* Show the hamburger menu button */
+  .hamburger-menu {
+    display: block;
+    order: 2; /* Place hamburger after notification bell */
+  }
+
+  /* Notification bell comes first */
+  .notification-bell {
+    order: 1;
+  }
+
+  /* Hide the nav list on mobile by default */
   .main-nav ul {
-    flex-direction: column;
+    display: none; /* Hide list by default */
+    position: absolute;
+    top: 70px; /* Position below header */
+    left: 0;
     width: 100%;
-    align-items: center;
-    gap: 5px;
+    background-color: var(--primary-color);
+    flex-direction: column;
+    padding: 10px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-top: 1px solid var(--accent-color);
   }
+
+  /* Show the nav list when 'active' class is present */
+  .main-nav.active ul {
+    display: flex;
+  }
+
   .main-nav li {
     margin-left: 0;
     width: 100%;
     text-align: center;
   }
+
   .main-nav a {
     display: block;
-    padding: 8px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 0;
   }
   .main-nav a:hover {
     background-color: var(--accent-color);
   }
+
+  /* Adjust notification panel position */
   .notification-panel {
-    top: 100px; /* Adjust for taller header */
+    top: 70px;
     right: 10px;
-    width: 95%;
+    width: calc(100% - 20px);
+    max-width: 320px; /* Keep a max width */
+  }
+
+  .shortcut-grid {
+    grid-template-columns: 1fr 1fr; /* 2 columns on mobile */
+  }
+  .shortcut-btn {
+    font-size: 1rem;
+    padding: 20px 10px;
+  }
+
+  .auth-form-container {
+    padding: 20px;
+  }
+
+  /* Donation Page */
+  .donation-summary {
+    flex-direction: column;
+  }
+  .progress-bar-container {
+    padding: 10px;
+  }
+  .progress-step {
+    width: 60px; /* Smaller steps */
+  }
+  .step-label {
+    font-size: 0.8em; /* Smaller label */
+  }
+  .progress-line {
+    width: calc(100% - 40px);
+    left: 20px;
+  }
+  .donation-step-form, .donation-summary, .payment-details {
+    padding: 20px;
+  }
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Live Updates Page */
+  .featured-video-player {
+    height: 220px;
+  }
+
+  /* Transparency Page */
+  .total-amount {
+    font-size: 2.5rem;
+  }
+
+  /* Table scroll container */
+  .card .table-container {
+    margin-top: 20px;
   }
 }
