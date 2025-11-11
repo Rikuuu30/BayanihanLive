@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BayanihanLive</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1 id="welcome-heading">Welcome, Guest!</h1>
+            <p>Your central hub for making a difference. From here you can view live updates, track transparency reports, and make a donation.</p>
+
+            <h2>Quick Actions</h2>
+            <div class="shortcut-grid">
+                <a href="Bayanihan_Donation.html" class="shortcut-btn">
+                    <i class="fas fa-hand-holding-heart fa-2x"></i>
+                    <p>Make a Donation</p>
+                </a>
+                <a href="Bayanihan_Map.html" class="shortcut-btn">
+                    <i class="fas fa-map-marked-alt fa-2x"></i>
+                    <p>View Live Map</p>
+                </a>
+                <a href="Bayanihan_Live.html" class="shortcut-btn">
+                    <i class="fas fa-satellite-dish fa-2x"></i>
+                    <p>Watch Live Updates</p>
+                </a>
+                <a href="Bayanihan_Transparency.html" class="shortcut-btn">
+                    <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                    <p>See Transparency</p>
+                </a>
+            </div>
+
+            <h2 style="margin-top: 40px;">Recent News</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>PAGASA issues new warning</h3>
+                    <p>A new low-pressure area has been spotted east of Samar. All residents are advised to take precautions...</p>
+                    <a href="Bayanihan_News.html">Read More</a>
+                </div>
+                <div class="card">
+                    <h3>Donation Drive for Masbate Successful</h3>
+                    <p>The "Tulong para sa Masbate" drive, led by the Philippine Red Cross, has successfully concluded...</p>
+                    <a href="Bayanihan_Transparency.html">See Report</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+    <!-- Page-specific script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = Session.getCurrentUser();
+            if (currentUser) {
+                document.getElementById('welcome-heading').textContent = `Welcome, ${currentUser.username}!`;
+            }
+        });
+    </script>
+</body>
+</html>

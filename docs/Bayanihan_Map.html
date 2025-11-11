@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Calamity Map - BayanihanLive</title>
+    
+    <!-- Leaflet.js CSS (Required for the map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="map-page-body">
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Map Content -->
+    <main>
+        <div class="main-container">
+            <div class="left-column">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="discover-section">
+                    <h2>Discover Affected Communities</h2>
+                    <p>Select a location from the dropdown or click a map pin to see real-time updates and learn how you can help.</p>
+                    <div class="filter-container">
+                        <label for="location-filter">Go to Area:</label>
+                        <select id="location-filter">
+                            <option value="all">-- Select a Location --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="area-info-box" id="area-info-box">
+                    <h3>Community Information</h3>
+                    <p>Select a location to see more details here.</p>
+                </div>
+                <div class="report-section">
+                    <h2>Report a Community in Need</h2>
+                    <p>Help us identify areas requiring immediate assistance by submitting a report.</p>
+                    <button class="report-button">Submit a Report</button>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-stats-container">
+            <div class="stat-box">
+                <h4>Total Donations (All Time)</h4>
+                <p class="stat-number">₱ 1,750.00</p>
+                <small>Thank you for your support!</small>
+            </div>
+            <div class="stat-box">
+                <h4>People Affected (Nationwide)</h4>
+                <p class="stat-number">1.2 M</p>
+                <small>Based on recent disaster reports.</small>
+            </div>
+            <div class="stat-box">
+                <h4>Active Relief Operations</h4>
+                <p class="stat-number">45</p>
+                <small>Coordinated by partner organizations.</small>
+            </div>
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Leaflet.js (Required for the map) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+    
+    <!-- Page-specific map logic -->
+    <script src="Bayanihan_Map.js"></script>
+</body>
+</html>

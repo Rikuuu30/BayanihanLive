@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verified Foundations - BayanihanLive</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="Bayanihan_Styles.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Consistent Header with Notifications -->
+    <header class="main-header">
+        <a href="Bayanihan_Dashboard.html" class="logo">
+            <div class="logo-img"></div>
+            BayanihanLive
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="Bayanihan_Dashboard.html">Dashboard</a></li>
+                <li><a href="Bayanihan_Map.html">Live Map</a></li>
+                <li><a href="Bayanihan_Live.html">Live Updates</a></li>
+                <li><a href="Bayanihan_Donation.html">Donate</a></li>
+                <li><a href="Bayanihan_News.html">News</a></li>
+                <!-- Auth links (Login/Profile) are added by Bayanihan_App.js -->
+            </ul>
+            
+            <!-- Notification Bell -->
+            <div class="notification-bell" id="notificationBell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count hidden" id="notificationCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification Panel (Hidden by default) -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">Notifications</div>
+        <div class="notification-list" id="notificationList">
+            <!-- Items will be loaded by Bayanihan_App.js -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1>Verified Foundations</h1>
+            <p>We partner with licensed, verified organizations to ensure your donation gets to where it's needed most.</p>
+
+            <div class="card-grid">
+                <!-- Foundation Card 1 -->
+                <div class="card">
+                    <img src="https://placehold.co/600x300/c00/FFF?text=Red+Cross+Logo" alt="Philippine Red Cross" style="width:100%; border-radius: 5px; margin-bottom: 15px;">
+                    <h3>Philippine Red Cross</h3>
+                    <p>The Philippine Red Cross is a premier humanitarian organization providing a wide range of services, including disaster management and blood services.</p>
+                    <a href="Bayanihan_Transparency.html" class="btn btn-secondary" style="margin-right: 10px;">View Reports</a>
+                    <a href="Bayanihan_Donation.html" class="btn">Donate Now</a>
+                </div>
+
+                <!-- Foundation Card 2 -->
+                <div class="card">
+                    <img src="https://placehold.co/600x300/007bff/FFF?text=Kapuso+Logo" alt="GMA Kapuso Foundation" style="width:100%; border-radius: 5px; margin-bottom: 15px;">
+                    <h3>GMA Kapuso Foundation</h3>
+                    <p>GMA Kapuso Foundation is the socio-civic arm of GMA Network, focusing on disaster relief, health, and education.</p>
+                    <a href="Bayanihan_Transparency.html" class="btn btn-secondary" style="margin-right: 10px;">View Reports</a>
+                    <a href="Bayanihan_Donation.html" class="btn">Donate Now</a>
+                </div>
+
+                <!-- Foundation Card 3 -->
+                <div class="card">
+                    <img src="https://placehold.co/600x300/28a745/FFF?text=ABS-CBN+Logo" alt="ABS-CBN Foundation" style="width:100%; border-radius: 5px; margin-bottom: 15px;">
+                    <h3>ABS-CBN Foundation</h3>
+                    <p>A non-profit organization dedicated to improving the lives of children and families in the Philippines through various programs.</p>
+                    <a href="Bayanihan_Transparency.html" class="btn btn-secondary" style="margin-right: 10px;">View Reports</a>
+                    <a href="Bayanihan_Donation.html" class="btn">Donate Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2025 AIDNOVATORS. All rights reserved. | <a href="Bayanihan_FAQ.html">FAQ</a> | <a href="Bayanihan_Transparency.html">Transparency</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Main global script -->
+    <script src="Bayanihan_App.js"></script>
+</body>
+</html>
